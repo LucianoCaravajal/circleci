@@ -9,7 +9,7 @@ jobs:
     steps:
       - checkout
 orbs:
-  go: circleci/welcome-orb@0.4.1
+  go: circleci/go@1.5.0
 
 workflows:
   test-job-one:
