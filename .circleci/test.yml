@@ -1,0 +1,23 @@
+name: test
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Create many test parallel jobs as you want
+  test-job-one:
+    # Provide a name for the Job
+    name: First batch of tests
+    runs-on: ubuntu-latest
+    steps:
+      # First install whatever runtime you need
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.15
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # Run your tests
+      - name: Test
+        run: go test ./...
