@@ -8,6 +8,7 @@ jobs:
       tag: '1.15'
     steps:
       - checkout
+      - go/test
 orbs:
   go: circleci/go@1.5.0
 
@@ -15,4 +16,3 @@ workflows:
   test-job-one:
     jobs:
       - build
-      - go/test
