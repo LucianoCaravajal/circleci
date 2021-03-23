@@ -14,4 +14,4 @@ orbs:
 workflows:
   test-job-one:
     jobs:
-        - go test ./...
+        - go/test
