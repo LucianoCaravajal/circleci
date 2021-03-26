@@ -10,20 +10,14 @@ jobs:
       - checkout
       - go/test
   build-and-push:
-    executor: docker/docker
     steps:
       - checkout
-      - docker/check
-      - docker/build:
-          image: cirlceci/build-test
-      - docker/push:
-          image: cirlceci/build-test
+      - run: docker build 
+
 orbs:
   go: circleci/go@1.5.0
-  docker: circleci/docker@1.5.0
 
 workflows:
   test-job-one:
     jobs:
-      - build
       - build-and-push
