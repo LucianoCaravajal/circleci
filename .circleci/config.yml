@@ -2,14 +2,14 @@
 version: 2.1
 # Use a package of configuration called an orb.
 jobs:
-  build:
+  test:
     executor:
       name: go/default
       tag: '1.15'
     steps:
       - checkout
       - go/test
-  push:
+  build:
     machine: true
     needs:
     steps:
@@ -25,6 +25,6 @@ workflows:
   test-job-one:
     jobs:
       - build
-      - deploy:
+      - test:
           requires:
             - build
