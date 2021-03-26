@@ -9,6 +9,12 @@ jobs:
     steps:
       - checkout
       - go/test
+  dockerpush:
+    machine: true
+    steps:
+      - checkout
+      run: docker build
+      run: docker push
 orbs:
   go: circleci/go@1.5.0
 
@@ -16,3 +22,4 @@ workflows:
   test-job-one:
     jobs:
       - build
+      - dockerpush
