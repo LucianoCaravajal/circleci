@@ -25,6 +25,6 @@ workflows:
   test-job-one:
     jobs:
       - build
-      - test:
-        requires:
-          - build
+      - deploy:
+          requires:
+            - build
