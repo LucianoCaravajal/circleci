@@ -9,12 +9,12 @@ jobs:
     steps:
       - checkout
       - go/test
-  build-and-push:
+  push:
     machine: true
+    needs:
     steps:
       - checkout
       - run: docker build .
-      - run: docker push .
 
 
 orbs:
@@ -23,4 +23,7 @@ orbs:
 workflows:
   test-job-one:
     jobs:
-      - build-and-push
+      - test
+      - build:
+        requires:
+          - test
