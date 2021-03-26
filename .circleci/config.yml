@@ -21,6 +21,7 @@ orbs:
   go: circleci/go@1.5.0
 
 workflows:
+  version: 2
   test-job-one:
     jobs:
       - build
