@@ -13,7 +13,8 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker build
+      - run: docker build .
+      
 
 orbs:
   go: circleci/go@1.5.0
