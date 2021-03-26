@@ -23,7 +23,7 @@ orbs:
 workflows:
   test-job-one:
     jobs:
-      - test
-      - build:
+      - build
+      - test:
         requires:
-          - test
+          - build
