@@ -14,11 +14,13 @@ jobs:
     steps:
       - checkout
       - docker/check
-      - docker/build
-      - docker/push
+      - docker/build:
+          - image: cirlceci/build-test
+      - docker/push:
+          - image: cirlceci/build-test
 orbs:
   go: circleci/go@1.5.0
-  docker: circleci/docker@1.5.0
+  docker: circleci/docker@x.y.z
 
 workflows:
   test-job-one:
