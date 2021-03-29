@@ -18,9 +18,10 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: docker login -u $ARTIFACTORY_DOCKER_USER -p $ARTIFACTORY_DOCKER_PASS
-      - run: docker build .
-      - run: docker push splitio-docker.jfrog.io/${CIRCLE_PROJECT_USERNAME}:${CIRCLE_SHA1}
+      - run: |
+          echo "$ARTIFACTORY_DOCKER_PASS" | docker login --username $ARTIFACTORY_DOCKER_USER --password-stdin
+          docker build .
+          docker push splitio-docker.jfrog.io/${CIRCLE_PROJECT_USERNAME}:${CIRCLE_SHA1}
 
 
 orbs:
