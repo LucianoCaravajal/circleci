@@ -16,11 +16,10 @@ jobs:
       - run: docker build .
   deploy:
     machine: true
-    build:
-      docker:
-        auth:
-          username: ${ARTIFACTORY_DOCKER_USER}
-          password: ${ARTIFACTORY_DOCKER_PASS}
+    docker:
+      auth:
+        username: ${ARTIFACTORY_DOCKER_USER}
+        password: ${ARTIFACTORY_DOCKER_PASS}
     steps:
         - checkout
         - run: docker build .
