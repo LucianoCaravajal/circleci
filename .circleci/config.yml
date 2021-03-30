@@ -20,7 +20,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          docker login -u $ARTIFACTORY_DOCKER_USER -p $ARTIFACTORY_DOCKER_PASS
+          docker login -u $ARTIFACTORY_DOCKER_USER -p $ARTIFACTORY_DOCKER_PASS splitio-docker.jfrog.io
 
 orbs:
   go: circleci/go@1.5.0
