@@ -16,7 +16,7 @@ jobs:
       - run: docker build .
   deploy:
     machine: true
-    working_directory: .
+    working_directory: ./
     steps:
       - checkout
       - run: |
