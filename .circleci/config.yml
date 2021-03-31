@@ -20,8 +20,8 @@ jobs:
       - checkout
       - run: |
           echo "$ARTIFACTORY_DOCKER_PASS" | docker login --username $ARTIFACTORY_DOCKER_USER --password-stdin splitio-docker.jfrog.io
-          docker build -t splitio-docker.jfrog.io/${CIRCLE_PROJECT_USERNAME}:${CIRCLE_SHA1}
-          docker push splitio-docker.jfrog.io/${CIRCLE_PROJECT_USERNAME}:${CIRCLE_SHA1}
+          docker build -t splitio-docker.jfrog.io/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
+          docker push splitio-docker.jfrog.io/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
 
 orbs:
   go: circleci/go@1.5.0
