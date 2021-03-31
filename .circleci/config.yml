@@ -27,8 +27,14 @@ jobs:
           docker push splitio-docker.jfrog.io/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
   deploy-R2D2:
     machine: true
-    steps:
-      run: curl --header 'ontent-Type: application/json' --request PUT --data '{service: $CIRCLE_PROJECT_REPONAME, environment: stage, tag: $CIRCLE_SHA1, token: $SLACK_TOKEN}' --url https://r2d2.split-stage.io/deployment
+        steps:
+      run:
+        name: Deploying to R2D2
+        command: >-
+        curl --header 'Content-Type: application/json' 
+             --request PUT 
+             --data '{  "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' 
+            --url https://r2d2.split-stage.io/deployment
 
 workflows:
   version: 2
