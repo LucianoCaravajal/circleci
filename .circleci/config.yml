@@ -28,10 +28,14 @@ jobs:
           docker-password: ARTIFACTORY_DOCKER_PASS
       - docker/build:
           registry: splitio-docker.jfrog.io
-          image: CIRCLE_PROJECT_REPONAME
+          docker-username: ARTIFACTORY_DOCKER_USER
+          docker-password: ARTIFACTORY_DOCKER_PASS
+          image: $CIRCLE_PROJECT_REPONAME
       - docker/push:
           registry: splitio-docker.jfrog.io
-          image: CIRCLE_PROJECT_REPONAME
+          docker-username: ARTIFACTORY_DOCKER_USER
+          docker-password: ARTIFACTORY_DOCKER_PASS
+          image: $CIRCLE_PROJECT_REPONAME
 
 workflows:
   version: 2
