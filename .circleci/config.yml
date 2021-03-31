@@ -15,13 +15,13 @@ jobs:
       - checkout
       - run: docker build .
   deploy:
-    executor: docker/docker      
+    executor: docker/docker
     steps:
       - checkout
       - docker/check:
           registry: splitio-docker.jfrog.io
-          docker-username: $ARTIFACTORY_DOCKER_USER
-          docker-password: $ARTIFACTORY_DOCKER_PASS
+          docker-username: ${ARTIFACTORY_DOCKER_USER}
+          docker-password: ${ARTIFACTORY_DOCKER_PASS}
 
 orbs:
   go: circleci/go@1.5.0
