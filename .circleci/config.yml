@@ -18,7 +18,7 @@ jobs:
     machine: true
     steps:
       - checkout
-      - run: echo "$ARTIFACTORY_DOCKER_PASS" | docker login --username $ARTIFACTORY_DOCKER_USER --password-stdin splitio-docker.jfrog.io
+      - run: echo "$DOCKER_PASS" | docker login --username $ARTIFACTORY_DOCKER_USER --password-stdin splitio-docker.jfrog.io
 
 orbs:
   go: circleci/go@1.5.0
