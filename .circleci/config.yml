@@ -20,12 +20,11 @@ jobs:
       - run: docker build .
   deploy:
     executor: docker/docker
-    steps:
-      - docker/publish:
-          registry: splitio-docker.jfrog.io
-          docker-username: ARTIFACTORY_DOCKER_USER
-          docker-password: ARTIFACTORY_DOCKER_PASS
-          image: splitio-docker.jfrog.io/$CIRCLE_PROJECT_REPONAME
+    - docker/publish:
+        registry: splitio-docker.jfrog.io
+        docker-username: ARTIFACTORY_DOCKER_USER
+        docker-password: ARTIFACTORY_DOCKER_PASS
+        image: splitio-docker.jfrog.io/$CIRCLE_PROJECT_REPONAME
 
 workflows:
   version: 2
