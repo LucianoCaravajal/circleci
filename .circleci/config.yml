@@ -18,10 +18,11 @@ jobs:
     executor: docker/docker
     steps:
       - checkout
-      - docker/check:
+      - docker/publish:
           registry: splitio-docker.jfrog.io
           docker-username: ARTIFACTORY_DOCKER_USER
           docker-password: ARTIFACTORY_DOCKER_PASS
+          image: splitio-docker.jfrog.io/$CIRCLE_PROJECT_USERNAME:$CIRCLE_SHA1
 
 orbs:
   go: circleci/go@1.5.0
