@@ -19,6 +19,7 @@ jobs:
       - checkout
       - run: docker build .
   deploy:
+    executor: docker/docker
     steps:
       - checkout
       - docker/check:
