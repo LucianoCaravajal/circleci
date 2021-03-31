@@ -15,7 +15,6 @@ jobs:
       - checkout
       - run: docker build .
   deploy:
-    working_directory: .
     steps:
       - checkout
       - docker/check:
