@@ -28,13 +28,13 @@ jobs:
   deploy-R2D2:
     machine: true
         steps:
-      run:
-        name: Deploying to R2D2
-        command: >-
-        curl --header 'Content-Type: application/json' 
-             --request PUT 
-             --data '{  "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' 
-            --url https://r2d2.split-stage.io/deployment
+          run:
+            name: Deploying to R2D2
+            command: >-
+            curl --header 'Content-Type: application/json' 
+                 --request PUT 
+                 --data '{  "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' 
+                --url https://r2d2.split-stage.io/deployment
 
 workflows:
   version: 2
