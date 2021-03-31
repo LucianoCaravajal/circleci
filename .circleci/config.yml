@@ -21,6 +21,7 @@ jobs:
       - run: |
           echo "$ARTIFACTORY_DOCKER_PASS" | docker login --username $ARTIFACTORY_DOCKER_USER --password-stdin splitio-docker.jfrog.io
           docker build .
+          ls
           docker push splitio-docker.jfrog.io/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
 
 orbs:
