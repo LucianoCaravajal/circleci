@@ -36,5 +36,7 @@ workflows:
           requires:
             - build
       - deploy:
+          context:
+            - org
           requires:
             - test
