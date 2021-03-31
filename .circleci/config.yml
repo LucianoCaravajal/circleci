@@ -44,6 +44,6 @@ workflows:
             - Org
           requires:
             - test
-      - deploy-r2d2:
+      - deploy-R2D2:
           requires:
             - deploy
