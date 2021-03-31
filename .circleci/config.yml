@@ -28,7 +28,7 @@ jobs:
   deploy-R2D2:
     machine: true
       steps:
-       - run:
+        - run:
           name: Deploying to R2D2
           command: >-
           curl --header 'Content-Type: application/json'
