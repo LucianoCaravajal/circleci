@@ -1,6 +1,10 @@
 # Use the latest 2.1 version of CircleCI pipeline process engine. See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 # Use a package of configuration called an orb.
+orbs:
+  go: circleci/go@1.5.0
+  docker: circleci/docker@1.5.0
+  
 jobs:
   test:
     executor:
@@ -22,10 +26,6 @@ jobs:
           docker-username: ARTIFACTORY_DOCKER_USER
           docker-password: ARTIFACTORY_DOCKER_PASS
           image: $CIRCLE_PROJECT_USERNAME:$CIRCLE_SHA1
-
-orbs:
-  go: circleci/go@1.5.0
-  docker: circleci/docker@1.5.0
 
 workflows:
   version: 2
