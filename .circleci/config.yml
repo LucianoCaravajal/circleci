@@ -14,15 +14,17 @@ jobs:
       - checkout
       - go/test
   build:
-    executor: docker/machine
+    executor: docker/docker
     steps:
+      - checkout
       - docker/build:
           registry: splitio-docker.jfrog.io
           image: ${CIRCLE_PROJECT_REPONAME}
 
   deploy:
-    executor: docker/machine
+    executor: docker/docker
     steps:
+      - checkout
       - docker/check:
           docker-password: ARTIFACTORY_DOCKER_PASS
           docker-username: ARTIFACTORY_DOCKER_USER
