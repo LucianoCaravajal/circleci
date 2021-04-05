@@ -18,7 +18,7 @@ jobs:
     steps:
       - checkout
       - docker/build:
-          image: ${CIRCLE_PROJECT_REPONAME}Orb
+          image: splitio-docker.jfrog.io/${CIRCLE_PROJECT_REPONAME}
   deploy:
     executor: docker/docker
     steps:
@@ -29,7 +29,7 @@ jobs:
           docker-username: ARTIFACTORY_DOCKER_USER
           registry: splitio-docker.jfrog.io
       - docker/push:
-          image: ${CIRCLE_PROJECT_REPONAME}Orb
+          image: ${CIRCLE_PROJECT_REPONAME}
   deploy-R2D2:
     machine: true
     steps:
