@@ -22,7 +22,7 @@ jobs:
           registry: splitio-docker.jfrog.io
           image: ${CIRCLE_PROJECT_REPONAME}
       - persist_to_workspace:
-          root: /
+          root: ./
           path: /${CIRCLE_PROJECT_REPONAME}*
 
   deploy:
