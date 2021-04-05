@@ -21,7 +21,7 @@ jobs:
       - docker/build:
           registry: splitio-docker.jfrog.io
           image: ${CIRCLE_PROJECT_REPONAME}
-      - persist_to_workspace
+      - persist_to_workspace:
           root: workspace
           path: ${CIRCLE_PROJECT_REPONAME}
 
@@ -39,7 +39,9 @@ jobs:
   deploy-R2D2:
     machine: true
     steps:
-      - run: |
+      - run:
+        name: Deploy to R2D2 using CURL
+        command: |
           curl --header 'Content-Type: application/json' --request PUT --data '{ "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' https://r2d2.split-stage.io/deployment
 
 workflows:
