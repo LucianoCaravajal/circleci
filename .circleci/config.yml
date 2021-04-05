@@ -23,7 +23,7 @@ jobs:
           image: ${CIRCLE_PROJECT_REPONAME}
       - persist_to_workspace:
           root: /
-          path: /*
+          path: /${CIRCLE_PROJECT_REPONAME}*
 
   deploy:
     executor: docker/docker
