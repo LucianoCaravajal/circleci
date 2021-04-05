@@ -16,6 +16,7 @@ jobs:
   build:
     executor: docker/docker
     steps:
+      - setup_remote_docker
       - checkout
       - docker/build:
           registry: splitio-docker.jfrog.io
