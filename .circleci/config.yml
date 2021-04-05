@@ -3,6 +3,7 @@ version: 2.1
 # Use a package of configuration called an orb.
 orbs:
   go: circleci/go@1.5.0
+  docker: circleci/docker@1.5.0
 
 jobs:
   test:
@@ -17,14 +18,19 @@ jobs:
     steps:
       - checkout
       - run: docker build .
-  deploy:
-    machine: true
-    steps:
-      - checkout
-      - run: |
-          echo "$ARTIFACTORY_DOCKER_PASS" | docker login --username $ARTIFACTORY_DOCKER_USER --password-stdin splitio-docker.jfrog.io
-          docker build -t splitio-docker.jfrog.io/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1} .
-          docker push splitio-docker.jfrog.io/${CIRCLE_PROJECT_REPONAME}:${CIRCLE_SHA1}
+  build-and-push:
+    executor: docker/docker
+      steps:
+        - setup_remote_docker
+        - checkout
+        - docker/check:
+            docker-password: ARTIFACTORY_DOCKER_PASS
+            docker-username: ARTIFACTORY_DOCKER_USER
+            registry: splitio-docker.jfrog.io
+        - docker/build:
+            image: ${CIRCLE_PROJECT_REPONAME}Orb
+        - docker/push:
+            image: ${CIRCLE_PROJECT_REPONAME}Orb
   deploy-R2D2:
     machine: true
     steps:
