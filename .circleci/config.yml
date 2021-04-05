@@ -19,12 +19,17 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - docker/publish:
+      - docker/check:
           docker-password: ARTIFACTORY_DOCKER_PASS
           docker-username: ARTIFACTORY_DOCKER_USER
           registry: splitio-docker.jfrog.io
+      - docker/build:
+          registry: splitio-docker.jfrog.io
           image: ${CIRCLE_PROJECT_REPONAME}
-  
+      - docker/push:
+          registry: splitio-docker.jfrog.io
+          image: ${CIRCLE_PROJECT_REPONAME}
+
   deploy-request:
     machine: true
     steps:
@@ -34,7 +39,6 @@ jobs:
             curl --header 'Content-Type: application/json' --request PUT --data '{ "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' https://r2d2.split-stage.io/deployment
 
 workflows:
-  version: 2.1
   test-job-one:
     jobs:
       - test
@@ -45,4 +49,4 @@ workflows:
             - test
       - deploy-request:
           requires:
-            - deploy
+            - build-push
