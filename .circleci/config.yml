@@ -14,7 +14,6 @@ jobs:
       - checkout
       - go/test
   build:
-    executor: docker/docker
     steps:
       - checkout
       - docker/build:
@@ -22,7 +21,6 @@ jobs:
           image: ${CIRCLE_PROJECT_REPONAME}
       
   deploy:
-    executor: docker/docker
     steps:
       - checkout
       - docker/check:
