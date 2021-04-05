@@ -13,18 +13,22 @@ jobs:
     steps:
       - checkout
       - go/test
+  build:
+      - checkout
+      - docker/build:
+          registry: splitio-docker.jfrog.io
+          image: ${CIRCLE_PROJECT_REPONAME}
+      - persist_to_workspace:
+          root: workspace
+          
   deploy:
     executor: docker/docker
     steps:
-      - setup_remote_docker
       - checkout
       - docker/check:
           docker-password: ARTIFACTORY_DOCKER_PASS
           docker-username: ARTIFACTORY_DOCKER_USER
           registry: splitio-docker.jfrog.io
-      - docker/build:
-          registry: splitio-docker.jfrog.io
-          image: ${CIRCLE_PROJECT_REPONAME}
       - docker/push:
           registry: splitio-docker.jfrog.io
           image: ${CIRCLE_PROJECT_REPONAME}
