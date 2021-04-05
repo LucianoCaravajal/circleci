@@ -20,17 +20,17 @@ jobs:
       - run: docker build .
   build-and-push:
     executor: docker/docker
-      steps:
-        - setup_remote_docker
-        - checkout
-        - docker/check:
-            docker-password: ARTIFACTORY_DOCKER_PASS
-            docker-username: ARTIFACTORY_DOCKER_USER
-            registry: splitio-docker.jfrog.io
-        - docker/build:
-            image: ${CIRCLE_PROJECT_REPONAME}Orb
-        - docker/push:
-            image: ${CIRCLE_PROJECT_REPONAME}Orb
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check:
+          docker-password: ARTIFACTORY_DOCKER_PASS
+          docker-username: ARTIFACTORY_DOCKER_USER
+          registry: splitio-docker.jfrog.io
+      - docker/build:
+          image: ${CIRCLE_PROJECT_REPONAME}Orb
+      - docker/push:
+          image: ${CIRCLE_PROJECT_REPONAME}Orb
   deploy-R2D2:
     machine: true
     steps:
