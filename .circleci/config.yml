@@ -20,7 +20,8 @@ jobs:
       - docker/build:
           registry: splitio-docker.jfrog.io
           image: ${CIRCLE_PROJECT_REPONAME}
-
+      - persist_to_workspace:
+          root: workspace
   deploy:
     executor: docker/docker
     steps:
@@ -46,8 +47,6 @@ workflows:
       - build:
           requires:
               - test
-          persist_to_workspace:
-              root: workspace
       - deploy:
           context:
             - Org
