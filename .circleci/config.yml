@@ -38,10 +38,7 @@ workflows:
   version: 2
   test-job-one:
     jobs:
-      - build
-      - test:
-          requires:
-            - build
+      - test
       - deploy:
           context:
             - Org
