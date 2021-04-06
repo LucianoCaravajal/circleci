@@ -23,7 +23,7 @@ jobs:
             unzip sonar-scanner-cli-${SONAR_VERSION}-linux.zip
           name: Install SonarQube Scanner
       - run:
-          command: >-
+          command: >
               ./sonar-scanner-$SONAR_VERSION-linux/bin/sonar-scanner
                -Dsonar.login=$SONARQUBE_KEY
                -Dsonar.host.url=$SONARQUBE_HOST
