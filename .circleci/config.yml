@@ -24,12 +24,11 @@ jobs:
           name: Install SonarQube Scanner
       - run:
           command: |
-              ./sonar-scanner-${SONAR_VERSION}-linux/bin/sonar-scanner \
+              ./sonar-scanner-$SONAR_VERSION-linux/bin/sonar-scanner \
                -Dsonar.login=$SONARQUBE_KEY
-               -Dsonar.host.url=${ SONARQUBE_HOST }
-               -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME}
-               -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}
-               -Dsonar.projectVersion=${{ env.VERSION }}
+               -Dsonar.host.url=$SONARQUBE_HOST
+               -Dsonar.projectName=$CIRCLE_PROJECT_REPONAME
+               -Dsonar.projectKey=$CIRCLE_PROJECT_REPONAME
                -Dsonar.exclusions='**/*_test.go,**/vendor/**,**/testdata/*'
                -Dsonar.go.coverage.reportPaths=coverage.out
                -Dsonar.links.scm="https://github.com/splitio/${CIRCLE_PROJECT_REPONAME}"
