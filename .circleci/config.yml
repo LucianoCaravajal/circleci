@@ -25,6 +25,7 @@ jobs:
       - run:
           command: |
               ./sonar-scanner-${SONAR_VERSION}-linux/bin/sonar-scanner \
+               -Dsonar.login=${ SONARQUBE_KEY }
                -Dsonar.host.url=${ SONARQUBE_HOST }
                -Dsonar.projectName=${CIRCLE_PROJECT_REPONAME}
                -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME}
