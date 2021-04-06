@@ -63,7 +63,9 @@ workflows:
   test-job-one:
     jobs:
       - test
-      - sonar
+      - sonar:
+          context:
+            - Org
       - build-push:
           context:
             - Org
