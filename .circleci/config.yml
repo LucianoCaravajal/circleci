@@ -6,6 +6,13 @@ orbs:
   docker: circleci/docker@1.5.0
 
 jobs:
+  echotest:
+    machine: true
+    steps:
+      - run: echo ${CIRCLE_PULL_REQUEST}
+      - run: echo ${CIRCLE_PULL_REQUESTS}
+      - run: echo ${CIRCLE_PR_NUMBER}
+
   test:
     executor:
       name: go/default
@@ -49,19 +56,31 @@ jobs:
           name: Deploy to R2D2 using CURL
           command: |
             curl --header 'Content-Type: application/json' --request PUT --data '{ "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' https://r2d2.split-stage.io/deployment
-      - run: echo ${CIRCLE_PULL_REQUEST}
 workflows:
   test-job-one:
     jobs:
+      - echotest
       - test
       - sonar:
           context:
             - Org
+          filters:
+            branches:
+              ignore:
+                - master
       - build-push:
           context:
             - Org
           requires:
             - test
+          filters:
+            branches:
+              only:
+                - master
       - deploy-request:
           requires:
             - build-push
+          filters:
+            branches:
+              only:
+                - master
