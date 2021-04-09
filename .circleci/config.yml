@@ -6,12 +6,6 @@ orbs:
   docker: circleci/docker@1.5.0
 
 jobs:
-  echotest:
-    machine: true
-    steps:
-      - run: echo ${CIRCLE_PULL_REQUEST}
-      - run: echo ${CIRCLE_PULL_REQUESTS}
-      - run: echo ${CIRCLE_PR_NUMBER}
   test:
     executor:
       name: go/default
@@ -58,7 +52,6 @@ jobs:
 workflows:
   test-job-one:
     jobs:
-      - echotest
       - test
       - sonar:
           context:
