@@ -6,10 +6,10 @@ orbs:
 parameters:
   run_after_deploy:
     default: false
-    type: booblean
+    type: boolean
   run_before_deploy:
     default: true
-    type: booblean
+    type: boolean
 jobs:
   test:
     executor:
