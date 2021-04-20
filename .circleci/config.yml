@@ -88,7 +88,7 @@ workflows:
     when: << pipeline.parameters.run_after_deploy >>
     jobs:
       - test:
-        filters:
-          branches:
-            only:
-              - master
+          filters:
+            branches:
+              only:
+                - master
