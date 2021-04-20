@@ -87,7 +87,7 @@ workflows:
   after-request:
     when: << pipeline.parameters.run_after_deploy >>
     jobs:
-      - test
+      - test:
         filters:
           branches:
             only:
