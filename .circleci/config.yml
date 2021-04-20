@@ -3,6 +3,13 @@ orbs:
   go: circleci/go@1.5.0
   docker: circleci/docker@1.5.0
 
+parameters:
+  run_after_deploy:
+    default: false
+    type: booblean
+  run_before_deploy:
+    default: true
+    type: booblean
 jobs:
   test:
     executor:
@@ -21,7 +28,14 @@ jobs:
             unzip sonar-scanner-cli-${SONAR_VERSION}-linux.zip
           name: Install SonarQube Scanner
       - run:
-          command: ./sonar-scanner-$SONAR_VERSION-linux/bin/sonar-scanner -Dsonar.login=$SONARQUBE_KEY -Dsonar.host.url=$SONARQUBE_HOST -Dsonar.projectName=$CIRCLE_PROJECT_REPONAME -Dsonar.projectKey=$CIRCLE_PROJECT_REPONAME -Dsonar.exclusions='**/*_test.go,**/vendor/**,**/testdata/*' -Dsonar.go.coverage.reportPaths=coverage.out -Dsonar.links.scm="https://github.com/splitio/${CIRCLE_PROJECT_REPONAME}"
+          command: ./sonar-scanner-$SONAR_VERSION-linux/bin/sonar-scanner
+          -Dsonar.login=$SONARQUBE_KEY
+          -Dsonar.host.url=$SONARQUBE_HOST
+          -Dsonar.projectName=$CIRCLE_PROJECT_REPONAME
+          -Dsonar.projectKey=$CIRCLE_PROJECT_REPONAME
+          -Dsonar.exclusions='**/*_test.go,**/vendor/**,**/testdata/*'
+          -Dsonar.go.coverage.reportPaths=coverage.out
+          -Dsonar.links.scm="https://github.com/splitio/${CIRCLE_PROJECT_REPONAME}"
           name: Run SonarQube Scanner
 
   build-push:
@@ -49,6 +63,7 @@ jobs:
             curl --header 'Content-Type: application/json' --request PUT --data '{ "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' https://r2d2.split-stage.io/deployment
 workflows:
   test-job-one:
+    when: << pipeline.parameters.run_before_deploy >>
     jobs:
       - test
       - sonar:
@@ -76,3 +91,11 @@ workflows:
             branches:
               only:
                 - master
+  after-request:
+    when: << pipeline.parameters.run_after_deploy >>
+    jobs:
+      - test
+        filters:
+          branches:
+            only:
+              - master
