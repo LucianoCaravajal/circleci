@@ -93,6 +93,6 @@ workflows:
           type: approval
           requires:
             - test
-      - sonnar:
+      - sonar:
           requires:
             - hold
