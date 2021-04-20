@@ -5,11 +5,9 @@ orbs:
 
 parameters:
   run_after_deploy:
-    default: true
+    default: false
     type: boolean
-  run_before_deploy:
-    default: true
-    type: boolean
+
 jobs:
   test:
     executor:
@@ -56,7 +54,6 @@ jobs:
             curl --header 'Content-Type: application/json' --request PUT --data '{ "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' https://r2d2.split-stage.io/deployment
 workflows:
   test-job-one:
-    when: << pipeline.parameters.run_before_deploy >>
     jobs:
       - test
       - sonar:
@@ -87,7 +84,7 @@ workflows:
   after-request:
     when: << pipeline.parameters.run_after_deploy >>
     jobs:
-      - test:
+      - :
           filters:
             branches:
               only:
