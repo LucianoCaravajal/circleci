@@ -5,7 +5,7 @@ orbs:
 
 parameters:
   run_after_deploy:
-    default: false
+    default: true
     type: boolean
   run_before_deploy:
     default: true
