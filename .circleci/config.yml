@@ -80,7 +80,7 @@ workflows:
             branches:
               only:
                 - master
-  after-request:
+  after-request-worflow:
     when: << pipeline.parameters.run_after_deploy >>
     jobs:
       - test:
