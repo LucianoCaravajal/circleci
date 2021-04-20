@@ -54,6 +54,7 @@ jobs:
           name: Deploy to R2D2 using CURL
           command: |
             curl --header 'Content-Type: application/json' --request PUT --data '{ "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' https://r2d2.split-stage.io/deployment
+
 workflows:
   test-job-one:
     when: << pipeline.parameters.run_before_deploy >>
@@ -88,3 +89,10 @@ workflows:
             branches:
               only:
                 - master
+      - hold:
+          type: approval
+          requires:
+            - test
+      - sonnar:
+          requires:
+            - hold
