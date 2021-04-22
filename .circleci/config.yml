@@ -61,7 +61,7 @@ jobs:
     steps:
       - run:
           command: |
-            curl https://github.com/concourse/concourse/releases/download/v7.2.0/fly-7.2.0-linux-amd64.tgz -L -o /tmp/fly.tgz
+            curl https://github.com/concourse/concourse/releases/download/v6.7.1/fly-6.7.1-linux-amd64.tgz -L -o /tmp/fly.tgz
             sudo tar -xvf /tmp/fly.tgz -C /usr/local/bin/
 
             fly login -t use1-stage-1 --team-name main --concourse-url https://concourse-use1-stage-1.split-stage.io/ --username admin --password $FLY_ADMIN_PASS
