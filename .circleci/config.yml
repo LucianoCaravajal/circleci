@@ -105,7 +105,7 @@ workflows:
       - hold:
           type: approval
           requires:
-            - test
+            - integration-status
       - sonar:
           requires:
             - hold
