@@ -62,8 +62,7 @@ jobs:
       - run:
           command: |
             curl https://github.com/concourse/concourse/releases/download/v7.2.0/fly-7.2.0-linux-amd64.tgz -L -o /tmp/fly.tgz
-            ls -lh /tmp/
-            tar -xvf /tmp/fly.tgz -C /usr/local/bin/
+            sudo tar -xvf /tmp/fly.tgz -C /usr/local/bin/
 
 workflows:
   test-job-one:
