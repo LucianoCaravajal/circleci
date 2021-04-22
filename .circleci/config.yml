@@ -61,7 +61,8 @@ jobs:
     steps:
       - run:
           command: |
-            wget https://github.com/concourse/concourse/releases/download/v7.2.0/fly-7.2.0-linux-amd64.tgz -o /tmp/fly.tgz
+            wget https://github.com/concourse/concourse/releases/download/v7.2.0/fly-7.2.0-linux-amd64.tgz -L -o  /tmp/fly.tgz
+            ls /temp/
             tar xf /tmp/fly.tgz -C /usr/local/bin/
 
 workflows:
