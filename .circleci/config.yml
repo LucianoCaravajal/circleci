@@ -63,13 +63,11 @@ jobs:
           command: |
             curl https://github.com/concourse/concourse/releases/download/v6.7.1/fly-6.7.1-linux-amd64.tgz -L -o /tmp/fly.tgz
             sudo tar -xvf /tmp/fly.tgz -C /usr/local/bin/
-
             fly login -t use1-stage-1 --team-name main --concourse-url https://concourse-use1-stage-1.split-stage.io/ --username admin --password $FLY_ADMIN_PASS
-
             fly -t use1-stage-1 w -j deploy-go-test-app/deploy
 
 workflows:
-  test-job-one:
+  test-job:
     when: << pipeline.parameters.run_before_deploy >>
     jobs:
       - test
