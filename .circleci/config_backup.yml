@@ -1,0 +1,113 @@
+version: 2.1
+orbs:
+  go: circleci/go@1.5.0
+  docker: circleci/docker@1.5.0
+  node: circleci/node@2.0.2
+
+parameters:
+  run_after_deploy:
+    default: false
+    type: boolean
+  run_before_deploy:
+    default: true
+    type: boolean
+
+jobs:
+  test:
+    executor:
+      name: go/default
+      tag: '1.15'
+    steps:
+      - checkout
+      - go/test
+
+  sonar:
+    machine: true
+    steps:
+      - run:
+          command: |
+            wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_VERSION}-linux.zip
+            unzip sonar-scanner-cli-${SONAR_VERSION}-linux.zip
+          name: Install SonarQube Scanner
+      - run:
+          command: ./sonar-scanner-$SONAR_VERSION-linux/bin/sonar-scanner -Dsonar.login=$SONARQUBE_KEY -Dsonar.host.url=$SONARQUBE_HOST -Dsonar.projectName=$CIRCLE_PROJECT_REPONAME -Dsonar.projectKey=$CIRCLE_PROJECT_REPONAME -Dsonar.exclusions='**/*_test.go,**/vendor/**,**/testdata/*' -Dsonar.go.coverage.reportPaths=coverage.out -Dsonar.links.scm="https://github.com/splitio/${CIRCLE_PROJECT_REPONAME}"
+          name: Run SonarQube Scanner
+
+  build-push:
+    executor: docker/docker
+    steps:
+      - setup_remote_docker
+      - checkout
+      - docker/check:
+          docker-password: ARTIFACTORY_DOCKER_PASS
+          docker-username: ARTIFACTORY_DOCKER_USER
+          registry: splitio-docker.jfrog.io
+      - docker/build:
+          registry: splitio-docker.jfrog.io
+          image: ${CIRCLE_PROJECT_REPONAME}
+      - docker/push:
+          registry: splitio-docker.jfrog.io
+          image: ${CIRCLE_PROJECT_REPONAME}
+
+  deploy-request:
+    machine: true
+    steps:
+      - run:
+          name: Deploy to R2D2 using CURL
+          command: |
+            curl --header 'Content-Type: application/json' --request PUT --data '{ "service": "$CIRCLE_PROJECT_REPONAME", "environment": "stage", "tag": "$CIRCLE_SHA1", "token": "$SLACK_TOKEN"}' https://r2d2.split-stage.io/deployment
+
+
+  integration-status:
+    machine: true
+    steps:
+      - run:
+          command: |
+            wget https://github.com/concourse/concourse/releases/download/v7.2.0/fly-7.2.0-linux-amd64.tgz -o /tmp/fly.tgz
+            tar xzf /tmp/fly.tgz -C /usr/local/bin/
+            fly login -t use1-stage-1 --team-name main --concourse-url https://concourse-use1-stage-1.split-stage.io/ --username admin --password ${FLY_ADMIN_PASS}
+
+            fly -t use1-stage-1 w -j deploy-go-test-app/deploy
+workflows:
+  test-job-one:
+    when: << pipeline.parameters.run_before_deploy >>
+    jobs:
+      - test
+      - sonar:
+          context:
+            - Org
+          requires:
+            - test
+      - build-push:
+          context:
+            - Org
+          requires:
+            - sonar
+          filters:
+            branches:
+              only:
+                - master
+      - deploy-request:
+          requires:
+            - build-push
+          filters:
+            branches:
+              only:
+                - master
+  integration-test:
+    when: << pipeline.parameters.run_after_deploy >>
+    jobs:
+      - integration-status:
+          context:
+            - Org
+          filters:
+            branches:
+              only:
+                - master
+      - hold:
+          type: approval
+          requires:
+            - test
+      - sonar:
+          requires:
+            - hold
