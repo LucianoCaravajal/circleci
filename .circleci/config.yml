@@ -7,4 +7,4 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - run: npm install; npm ci
+      - run: nvm install; npm install; npm ci
