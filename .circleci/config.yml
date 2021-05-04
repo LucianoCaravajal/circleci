@@ -7,6 +7,4 @@ jobs:
       name: node/default
     steps:
       - checkout
-      - node/with-cache:
-          steps:
-            - run: npm install; npm ci
+      - run: npm install; npm ci
