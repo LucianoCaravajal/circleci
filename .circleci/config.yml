@@ -1,25 +1,16 @@
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@4.3.0
 jobs:
   build:
-    docker:
-      - image: circleci/python:3.7-node
-    working_directory: ~/repo
+    executor:
+      name: node/default
     steps:
       - checkout
-      - setup_remote_docker
       - run:
           name: Install nvm
           command: |
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
             echo 'export NVM_DIR=$HOME/.nvm' >> $BASH_ENV
             echo 'source $NVM_DIR/nvm.sh' >> $BASH_ENV
-      - run:
-          name: Set node to version required by application for future circleci steps
-          command: |
-            nvm install 12.18.4
-            NODE_VERSION=$(node -v)
-            nvm alias default ${NODE_VERSION//v}
-      - run:
-          name: node version
-          command: |
-            node -v
+      - run: nvm install 12.18.4; npm ci
