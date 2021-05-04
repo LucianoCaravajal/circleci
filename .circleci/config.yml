@@ -13,4 +13,4 @@ jobs:
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
             echo 'export NVM_DIR=$HOME/.nvm' >> $BASH_ENV
             echo 'source $NVM_DIR/nvm.sh' >> $BASH_ENV
-      - run: nvm install 12.18.4; npm ci
+      - run: nvm install 12.18.4;npm install; npm ci
