@@ -16,7 +16,7 @@ jobs:
       - run:
           name: Set node to version required by application for future circleci steps
           command: |
-            nvm install
+            nvm install 12.18.4
             NODE_VERSION=$(node -v)
             nvm alias default ${NODE_VERSION//v}
       - run:
